@@ -9,6 +9,7 @@ class ChartsScreen extends Component {
   //*Component mount
   //*Call MobX store & setInterval
   componentDidMount() {
+    this.props.store.setLoading()
     this.props.store.initInterval()
   }
 
@@ -24,6 +25,7 @@ class ChartsScreen extends Component {
   }
 
   render() {
+    console.log('data', this.props.store.data)
     return (
       <View>
         <NavigationEvents

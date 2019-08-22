@@ -1,4 +1,5 @@
 import { action, observable, runInAction } from 'mobx'
+import axios from 'axios'
 
 class DataStore {
   @observable data = null
@@ -31,14 +32,18 @@ class DataStore {
     return res
   }
 
+  @action.bound
+  async setLoading() {
+    await runInAction(() => {
+      console.log('loading')
+      this.loading = true
+    })
+  }
+
   //*Main bound function that wrap all fetch flow function
   @action.bound
   async fetchData() {
     try {
-      runInAction(() => {
-        this.error = false
-        this.loading = true
-      })
       const response = await this.fetchInitData()
       const json = await this.jsonData(response)
       const map = await this.mapObjects(json)
@@ -62,7 +67,6 @@ class DataStore {
       this.data = null
       this.fetchInterval = null
       this.error = false
-      this.loading = true
     })
   }
 
